@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You 💖</title>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: background 1s ease;
+  }
+
+  .party {
+    background: linear-gradient(270deg, #ff9a9e, #fbc2eb, #a1c4fd, #c2ffd8);
+    background-size: 800% 800%;
+    animation: rainbow 6s ease infinite;
+  }
+
+  @keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .card {
+    width: 90%;
+    max-width: 420px;
+    background: white;
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 2;
+  }
+
+  h1 {
+    color: #ff4d6d;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .sad {
+    min-height: 26px;
+    margin: 15px 0;
+    color: #ff6b81;
+    font-size: 18px;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+
+  .shake {
+    animation: shake 0.4s;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  button {
+    padding: 18px;
+    font-size: 18px;
+    border-radius: 50px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #yesBtn {
+    background: #ff4d6d;
+    color: white;
+    transition: transform 0.2s ease;
+  }
+
+  #noBtn {
+    background: #e0e0e0;
+    color: #333;
+    position: fixed;
+  }
+
+  .heart {
+    position: fixed;
+    bottom: 0;
+    font-size: 24px;
+    animation: floatUp 3s linear forwards;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+
+<body id="body">
+
+<div class="card" id="card">
+  <h1>Will you go on a date with me? 💕</h1>
+  <p>I promise lots of smiles and memories 🥰</p>
+
+  <div class="sad" id="sadText"></div>
+
+  <div class="buttons">
+    <button id="yesBtn" onclick="yesClick()">YES 💖</button>
+    <button id="noBtn" onclick="noClick()">NO 🙈</button>
+  </div>
+</div>
+
+<script>
+  let yesScale = 1;
+  let sadIndex = 0;
+
+  const sadMessages = [
+    "Are you sure? ☹️",
+    "Really really sure? 🥺",
+    "That hurts a little… 💔",
+    "Please say yes 😭",
+    "Still no?? 🥲"
+  ];
+
+  function noClick() {
+    const sadText = document.getElementById("sadText");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+
+    sadText.textContent = sadMessages[sadIndex % sadMessages.length];
+    sadIndex++;
+
+    sadText.classList.remove("shake");
+    void sadText.offsetWidth;
+    sadText.classList.add("shake");
+
+    if (yesScale < 1.6) {
+      yesScale += 0.03;
+      yesBtn.style.transform = "scale(" + yesScale + ")";
+    }
+
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+  }
+
+  function yesClick() {
+    document.getElementById("body").classList.add("party");
+
+    document.getElementById("card").innerHTML = `
+      <h1 style="animation: fadeIn 1s ease;">YAYYYY!!! 🎉💖</h1>
+      <p style="animation: fadeIn 1.5s ease;">
+        Heyaaaa babyyy ko 🥺💗<br><br>
+        Thanks for accepting to become my Valentine’s date.
+        Even though we’re miles apart, my heart feels close to yours.
+        Distance may separate us physically, but it can’t change how much you mean to me.
+        <br><br>
+        I’m thankful for every call, every message, and every moment we choose each other despite the distance.
+        One day, we won’t need screens anymore—but for now, knowing you’re mine is more than enough 🌙✨
+      </p>
+    `;
+
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 3000);
+    }
+  }
+</script>
+
+</body>
+</html>
